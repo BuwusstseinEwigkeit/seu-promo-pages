@@ -1068,6 +1068,21 @@
       line-height: 1.72;
     }
 
+    .manifesto {
+      margin: 28px 0 20px;
+      padding: 26px 30px;
+      border-left: 6px solid var(--seu-gold);
+      background:
+        linear-gradient(90deg, rgba(246,196,0,0.16), rgba(255,255,255,0.72)),
+        #fff;
+      color: var(--seu-green);
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 900;
+      line-height: 1.16;
+      box-shadow: 0 16px 46px rgba(20,67,54,0.08);
+    }
+
     .copy-board {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1104,6 +1119,46 @@
     .copy-card span {
       color: var(--muted);
       line-height: 1.65;
+    }
+
+    .campus-mosaic {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .campus-mosaic figure {
+      position: relative;
+      min-height: 220px;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 6px;
+      background: var(--mist);
+      box-shadow: 0 16px 46px rgba(20,67,54,0.08);
+    }
+
+    .campus-mosaic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 700ms ease;
+    }
+
+    .campus-mosaic figure:hover img {
+      transform: scale(1.05);
+    }
+
+    .campus-mosaic figcaption {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.90);
+      color: var(--seu-green);
+      font-size: 13px;
+      font-weight: 900;
     }
 
     .finale {
@@ -1303,6 +1358,7 @@
       .qa-grid,
       .fit-banner,
       .copy-board,
+      .campus-mosaic,
       .source-list {
         grid-template-columns: 1fr;
       }
@@ -1601,7 +1657,7 @@
         </details>
         <details class="reveal" open>
           <summary>东大的学习会不会很累？</summary>
-          <p>会有强度。公开讨论里“学风强”“强度不低”出现频率很高。它更适合目标感强、愿意把理工科读扎实的人；如果你想要的是躺平式大学体验，东大可能会温柔地拒绝你。</p>
+          <p>会有强度。公开讨论里“学风强”“强度不低”出现频率很高。它更适合目标感强、愿意把理工科读扎实的人；如果你想要的是全程挂机式大学体验，东大大概率不是最舒服的选项。</p>
           <span class="zhihu-note">上中体感版：不是地狱模式，但也别想全程自动驾驶。</span>
         </details>
         <details class="reveal" open>
@@ -1618,6 +1674,7 @@
         <h2>你不需要喜欢所有大学。你只需要找到能承接你的那一所。</h2>
         <p>如果你正在想“强校之间怎么比”“专业优先还是城市优先”“理工科到底读到哪里才算有意思”，可以用下面几条快速判断。</p>
       </div>
+      <p class="manifesto reveal">别只选一所大学，选一个能把你放大的坐标。</p>
       <div class="fit-banner reveal">
         <img src="assets/official/zsb-home-02.png" alt="东南大学本科招生视觉">
         <div class="fit-note">
@@ -1632,6 +1689,11 @@
         <article class="copy-card reveal"><b>04</b><strong>适合愿意做长期题的人。</strong><span>真实工程、科研训练和复杂系统，往往不是三分钟热度能打穿的。</span></article>
         <article class="copy-card reveal"><b>05</b><strong>不适合只看外显热度的人。</strong><span>如果你只按城市热度或短期话题选学校，可能会错过它真正强的专业和平台。</span></article>
         <article class="copy-card reveal"><b>06</b><strong>适合认真比较的人。</strong><span>别只问它是不是“更响”，要问你的目标方向、训练方式和未来想做的事，能不能和它对上。</span></article>
+      </div>
+      <div class="campus-mosaic" aria-label="更多东南大学官方校园图">
+        <figure class="reveal"><img src="assets/official/seu-overview-00.jpg" alt="东南大学校园官方图片"><figcaption>四牌楼气质</figcaption></figure>
+        <figure class="reveal"><img src="assets/official/zsb-home-12.jpg" alt="东南大学本科招生网官方图片"><figcaption>招生网视觉</figcaption></figure>
+        <figure class="reveal"><img src="assets/official/seu-overview-01.jpg" alt="东南大学校园官方图片"><figcaption>校园现场</figcaption></figure>
       </div>
     </section>
 
