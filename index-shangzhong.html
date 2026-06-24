@@ -252,6 +252,85 @@
       margin-top: 34px;
     }
 
+    .signal-deck {
+      max-width: 880px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 26px;
+      border: 1px solid rgba(40,93,76,0.18);
+      border-radius: 6px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,250,240,0.54)),
+        repeating-linear-gradient(90deg, rgba(40,93,76,0.05) 0 1px, transparent 1px 24px);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 70px rgba(20,67,54,0.12);
+      overflow: hidden;
+      perspective: 900px;
+    }
+
+    .signal-card {
+      position: relative;
+      min-height: 126px;
+      padding: 18px;
+      border-right: 1px solid rgba(40,93,76,0.13);
+      color: var(--seu-green);
+      overflow: hidden;
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(0);
+      transition: transform 180ms ease, background 180ms ease;
+      transform-style: preserve-3d;
+    }
+
+    .signal-card:last-child { border-right: 0; }
+
+    .signal-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(115deg, transparent 38%, rgba(246,196,0,0.28), transparent 62%);
+      opacity: 0;
+      transform: translateX(-25%);
+      transition: opacity 180ms ease, transform 480ms ease;
+      pointer-events: none;
+    }
+
+    .signal-card:hover {
+      background: rgba(255,255,255,0.66);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+    }
+
+    .signal-card:hover::before {
+      opacity: 1;
+      transform: translateX(25%);
+    }
+
+    .signal-card b {
+      position: relative;
+      display: block;
+      color: var(--seu-red);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .signal-card strong {
+      position: relative;
+      display: block;
+      margin-top: 12px;
+      font-family: var(--serif);
+      font-size: 23px;
+      line-height: 1.12;
+    }
+
+    .signal-card span {
+      position: relative;
+      display: block;
+      margin-top: 10px;
+      color: #587068;
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
     .btn {
       min-height: 50px;
       display: inline-flex;
@@ -1136,6 +1215,11 @@
       }
 
       .hero-card { min-height: auto; }
+      .signal-deck {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .signal-card:nth-child(2) { border-right: 0; }
+      .signal-card:nth-child(-n + 2) { border-bottom: 1px solid rgba(40,93,76,0.13); }
       .promise-grid,
       .data-wall,
       .copy-board,
@@ -1180,8 +1264,22 @@
         font-size: 45px;
         line-height: 1.06;
       }
-      .hero .lead { font-size: 17px; }
+      .hero .lead {
+        font-size: 17px;
+        overflow-wrap: anywhere;
+      }
       .hero-actions { gap: 10px; }
+      .signal-deck {
+        margin-top: 22px;
+        grid-template-columns: 1fr;
+      }
+      .signal-card {
+        min-height: 112px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(40,93,76,0.13);
+      }
+      .signal-card:last-child { border-bottom: 0; }
+      .signal-card strong { font-size: 21px; }
       .btn {
         min-height: 46px;
         padding: 0 16px;
@@ -1264,6 +1362,28 @@
         <div class="hero-actions">
           <a class="btn" href="#why">为什么值得看</a>
           <a class="btn secondary" href="#fit">我适合吗</a>
+        </div>
+        <div class="signal-deck reveal visible" aria-label="给上中同学的四个判断信号">
+          <article class="signal-card">
+            <b>Signal 01</b>
+            <strong>上限导向</strong>
+            <span>强校很多，关键是你的目标方向能不能被长期承接。</span>
+          </article>
+          <article class="signal-card">
+            <b>Signal 02</b>
+            <strong>系统问题</strong>
+            <span>把竞赛式能力迁移到城市、智能系统、交通和医学工程里。</span>
+          </article>
+          <article class="signal-card">
+            <b>Signal 03</b>
+            <strong>换训练场</strong>
+            <span>不退出长三角，但离开熟悉路径，换一套同伴和节奏。</span>
+          </article>
+          <article class="signal-card">
+            <b>Signal 04</b>
+            <strong>长期题</strong>
+            <span>不是三分钟热度的漂亮选择，而是愿意持续投入的专业判断。</span>
+          </article>
         </div>
       </div>
       <aside class="hero-card reveal" aria-label="官方招生视觉">
@@ -1548,6 +1668,7 @@
     const progress = document.querySelector(".progress");
     const revealItems = [...document.querySelectorAll(".reveal")];
     const counters = [...document.querySelectorAll("[data-count]")];
+    const signalCards = [...document.querySelectorAll(".signal-card")];
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const countStarted = new WeakSet();
 
@@ -1588,6 +1709,22 @@
 
     revealItems.forEach(item => observer.observe(item));
     counters.forEach(counter => observer.observe(counter));
+
+    if (!reduceMotion && matchMedia("(hover: hover)").matches) {
+      signalCards.forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          card.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
+          card.style.setProperty("--ry", `${(x * 7).toFixed(2)}deg`);
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.removeProperty("--rx");
+          card.style.removeProperty("--ry");
+        });
+      });
+    }
 
     document.querySelector("#full").addEventListener("click", async () => {
       if (!document.fullscreenElement) {
